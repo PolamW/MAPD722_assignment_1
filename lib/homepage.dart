@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,9 +9,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // RegExp numberValidator = RegExp("[0-9]+");
-  // bool isANumber = true;
-
   //use controller to get inputed text
   final _hourController = TextEditingController();
   final _rateController = TextEditingController();
@@ -18,10 +16,10 @@ class _HomePageState extends State<HomePage> {
   //store user text input into a variable
   var hours = "0.0";
   var rate = "0.0";
-  var regularPay = "0.0";
-  var overtimePay = "0.0";
-  var totalPay = "0.0";
-  var tax = "0.0";
+  var regularPay = "\$0.0";
+  var overtimePay = "\$0.0";
+  var totalPay = "\$0.0";
+  var tax = "\$0.0";
 
   @override
   Widget build(BuildContext context) {
@@ -36,34 +34,26 @@ class _HomePageState extends State<HomePage> {
             TextField(
               controller: _hourController,
               keyboardType: TextInputType.number,
-              // onChanged: (hours) {
-              //   if (hours.isEmpty || numberValidator.hasMatch(hours)) {
-              //     setValidator(true);
-              //   } else {
-              //     setValidator(false);
-              //   }
-              // },
+              //Validation - allow user to input numbers only
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
               decoration: const InputDecoration(
                 hintText: 'Number of hours',
                 border: OutlineInputBorder(),
-                // errorText: isANumber ? null : "Please enter a valid number"
               ),
             ),
             const SizedBox(height: 16),
             TextField(
               controller: _rateController,
               keyboardType: TextInputType.number,
-              // onChanged: (rate) {
-              //   if (rate.isEmpty || numberValidator.hasMatch(rate)) {
-              //     setValidator(true);
-              //   } else {
-              //     setValidator(false);
-              //   }
-              // },
+              //Validation - allow user to input numbers only
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
               decoration: const InputDecoration(
                 hintText: 'Hourly rate',
                 border: OutlineInputBorder(),
-                // errorText: isANumber ? null : "Please enter a valid rate"),
               ),
             ),
             const SizedBox(height: 16),
@@ -72,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                 //get user new input
                 var numberOfHours = _hourController.text.toString();
                 var numberOfRate = _rateController.text.toString();
-                //validate user input
+                //validate user input must not be empty
                 if (numberOfHours == "" && numberOfRate == "") {
                   showDialog(
                       context: context,
@@ -113,7 +103,6 @@ class _HomePageState extends State<HomePage> {
             const Divider(
               color: Colors.black,
             ),
-            // const SizedBox(height: 4),
             Container(
               width: 350,
               alignment: Alignment.center,
@@ -147,8 +136,14 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(20)),
                 width: 350,
                 child: Column(children: const [
-                  Text("Student Name: Po Lam Wong"),
-                  Text("Student ID: 301258847"),
+                  Text(
+                    "Student Name: Po Lam Wong",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    "Student ID: 301258847",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ]))
           ],
         ),
